@@ -529,5 +529,12 @@ Hasil pada praktikum 5:
 ## Tugas Praktikum 2: 
 Implementasi di project "belanja" dengan menambahkan atribut foto produk, stok, dan rating seperti di aplikasi marketplace pada umumnya. 
 
+Hasil pada Tugas praktikum 2:
+
+![Hasil Program](./assets/image10.png)
+
+![Hasil Program](./assets/image13.png)
+
+
 
 

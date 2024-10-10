@@ -95,7 +95,7 @@ class ItemPage extends StatelessWidget {
                                       Colors.blue.shade900, // Warna tombol
                                 ),
                                 child: Text(
-                                  'Purchase for Rp${item.price}',
+                                  'Buy Rp${item.price}',
                                   style: const TextStyle(
                                     color: Colors
                                         .white, // Warna teks menjadi putih
