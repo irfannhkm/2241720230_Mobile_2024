@@ -1,10 +1,12 @@
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:photo_filter_carousel/widget/filter_selector.dart';
 
-
 @immutable
 class PhotoFilterCarousel extends StatefulWidget {
-  const PhotoFilterCarousel({super.key});
+  final String imagePath;
+  const PhotoFilterCarousel({super.key, required this.imagePath});
 
   @override
   State<PhotoFilterCarousel> createState() => _PhotoFilterCarouselState();
@@ -13,20 +15,29 @@ class PhotoFilterCarousel extends StatefulWidget {
 class _PhotoFilterCarouselState extends State<PhotoFilterCarousel> {
   final _filters = [
     Colors.white,
-    ...List.generate(Colors.primaries.length,
-        (index) => Colors.primaries[(index * 4) % Colors.primaries.length])
+    ...List.generate(
+      Colors.primaries.length,
+      (index) => Colors.primaries[(index * 4) % Colors.primaries.length],
+    )
   ];
 
   final _filterColor = ValueNotifier<Color>(Colors.white);
 
+  void _onFilterChanged(Color value) {
+    _filterColor.value = value;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.black,
-      child: Stack(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Display - 2241720230'),
+      ),
+      backgroundColor: Colors.black,
+      body: Stack(
         children: [
           Positioned.fill(
-            child: _buildPhotoWithFilter(),
+            child: _buildPhotoWithFilter(widget.imagePath),
           ),
           Positioned(
             left: 0.0,
@@ -39,14 +50,12 @@ class _PhotoFilterCarouselState extends State<PhotoFilterCarousel> {
     );
   }
 
-  Widget _buildPhotoWithFilter() {
-    return ValueListenableBuilder(
+  Widget _buildPhotoWithFilter(String imagePath) {
+    return ValueListenableBuilder<Color>(
       valueListenable: _filterColor,
       builder: (context, color, child) {
-        // Anda bisa ganti dengan foto Anda sendiri
-        return Image.network(
-          'https://docs.flutter.dev/cookbook/img-files'
-          '/effects/instagram-buttons/millennial-dude.jpg',
+        return Image.file(
+          File(imagePath),
           color: color.withOpacity(0.5),
           colorBlendMode: BlendMode.color,
           fit: BoxFit.cover,
@@ -61,9 +70,4 @@ class _PhotoFilterCarouselState extends State<PhotoFilterCarousel> {
       filters: _filters,
     );
   }
-  void _onFilterChanged(Color value) {
-  setState(() {
-    _filterColor.value = value;
-  });
-}
 }

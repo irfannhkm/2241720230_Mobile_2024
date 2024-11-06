@@ -1,5 +1,6 @@
-import 'dart:math' as math;
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'dart:math' as math;
 
 class CarouselFlowDelegate extends FlowDelegate {
   CarouselFlowDelegate({

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show ViewportOffset;
+import 'package:flutter/rendering.dart';
 import 'package:photo_filter_carousel/widget/carousel_flowdelegate.dart';
 import 'package:photo_filter_carousel/widget/filter_item.dart';
+
 
 @immutable
 class FilterSelector extends StatefulWidget {
