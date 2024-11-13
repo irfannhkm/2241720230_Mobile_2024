@@ -1,9 +1,6 @@
 class Task {
   final String description;
-  final bool complete;
+  final bool completed;
 
-  const Task({
-    this.complete = false,
-    this.description = '',
-  });
+  const Task({this.description = '', this.completed = false});
 }

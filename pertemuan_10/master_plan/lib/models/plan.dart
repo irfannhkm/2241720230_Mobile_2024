@@ -1,4 +1,4 @@
-import './task.dart';
+import 'package:master_plan/models/task.dart';
 
 class Plan {
   final String name;
@@ -6,7 +6,7 @@ class Plan {
 
   const Plan({this.name = '', this.tasks = const []});
 
-  int get completedCount => tasks.where((task) => task.complete).length;
+  int get completedCount => tasks.where((task) => task.completed).length;
 
   String get completenessMessage =>
       '$completedCount out of ${tasks.length} tasks';
