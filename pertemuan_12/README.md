@@ -662,3 +662,254 @@ Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
 > Hal itu bisa terjadi karena stream yang dihasilkan telah diubah menjadi broadcast stream. Broadcast stream memungkinkan stream yang dihasilkan dapat di-subscribe lebih dari satu kali dan teks akan ditambahkan setiap kali tombol Add Random Number ditekan.
 
 > ![output](./assets/14.gif)
+
+
+### Praktikum 6: StreamBuilder
+
+--- 
+
+### Langkah 1: Buat Project Baru
+Membuat projek baru dengan nama streambuilder_irfan  
+
+### Langkah 2: Buat file baru stream.dart
+Membuat class NumberStream
+
+### Langkah 3: Tetap di file stream.dart
+Membuat method getNumbers() dengan async*.
+```dart
+import 'dart:math';
+
+class NumberStream {
+  Stream<int> getNumbers() async* {
+    yield* Stream.periodic(const Duration(seconds: 1), (int t) {
+      Random random = Random();
+      int myNum = random.nextInt(10);
+      return myNum;
+    });
+  }
+}
+```
+
+### Langkah 4: Edit main.dart
+```dart
+import 'package:flutter/material.dart';
+import 'stream_irfan.dart';
+import 'dart:async';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
+      home: const StreamHomePage(),
+    );
+  }
+}
+
+class StreamHomePage extends StatefulWidget {
+  const StreamHomePage({super.key});
+
+  @override
+  State<StreamHomePage> createState() => _StreamHomePageState();
+}
+
+class _StreamHomePageState extends State<StreamHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Stream - Irfan | 2241720230'),
+      ),
+      body: Container(),
+    );
+  }
+}
+```
+
+### Langkah 5: Tambah variabel
+Meambahkan variabel late Stream.
+
+### Langkah 6: Edit initState()
+```dart
+  @override
+  void initState() {
+    numberStream = NumberStream().getNumbers();
+    super.initState();
+  }
+```
+
+### Langkah 7: Edit method build()
+Menampilkan hasil stream yang dihasilkan.
+```dart
+ @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Stream - Irfan | 2241720230'),
+      ),
+      body: StreamBuilder(
+          stream: numberStream,
+          initialData: 0,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('Error!');
+            }
+            if (snapshot.hasData) {
+              return Center(
+                  child: Text(
+                snapshot.data.toString(),
+                style: const TextStyle(fontSize: 96),
+              ));
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+    );
+  }
+```
+
+### Langkah 8: Run
+Menjalankan aplikasi
+
+> ![output](./assets/16.gif)
+
+### `Soal 12`
+Jelaskan maksud kode pada langkah 3 dan 7 !
+Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+Jawaban
+> Langkah 3 adalah untuk membuat method getNumbers() yang digunakan untuk menghasilkan stream yang berisi list angka random dari 0-9.
+
+> Langkah 7 adalah untuk menampilkan hasil stream yang dihasilkan ke dalam aplikasi menggunakan StreamBuilder.
+
+## Praktikum 7: BLoC Pattern
+
+--- 
+
+### Langkah 1: Buat Project baru
+Membuat projek baru dengan nama bloc_random_edo dengan menggunakan perintah flutter create bloc_random_edo -e. lalu membuat file baru dengan nama random_bloc.dart di dalam folder lib.
+
+### Langkah 2: Isi kode random_bloc.dart
+Import package dart:async dan math
+
+### Langkah 3: Buat class RandomNumberBloc()
+Memasukkan kode class RandomNumberBloc() di dalam file random_bloc.dart
+
+### Langkah 4: Buat variabel StreamController
+Menambahkan variabel StreamController di class RandomNumberBloc()
+
+### Langkah 5: Buat constructor
+Menambahkan constructor di class RandomNumberBloc()
+
+### Langkah 6: Buat method dispose()
+Menambahkan method dispose() di class RandomNumberBloc()
+```dart
+import 'dart:async';
+import 'dart:math';
+
+class RandomNumberBloc {
+  final _generateRandomController = StreamController<void>();
+  final _randomNumberController = StreamController<int>();
+  Sink<void> get generateRandom => _generateRandomController.sink;
+  Stream<int> get randomNumber => _randomNumberController.stream;
+
+  RandomNumberBloc() {
+    _generateRandomController.stream.listen((_) {
+      final random = Random().nextInt(100);
+      _randomNumberController.sink.add(random);
+    });
+  }
+
+  void dispose() {
+    _generateRandomController.close();
+    _randomNumberController.close();
+  }
+}
+
+```
+
+### Langkah 7: Edit main.dart
+```dart
+import 'package:bloc_random_irfan/random_screen.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const RandomScreen(),
+    );
+  }
+}
+```
+
+### Langkah 8: Buat file baru random_screen.dart
+Membuat file baru dengan nama random_screen.dart di dalam folder lib.
+
+### Langkah 9: Lakukan impor material dan random_bloc.dart
+Import package material dan random_bloc.dart
+
+### Langkah 10: Buat StatefulWidget RandomScreen
+Membuat class RandomScreen yang merupakan StatefulWidget
+
+### Langkah 11: Buat variabel
+Menambahkan variabel RandomNumberBloc di dalam class _RandomScreenState
+
+### Langkah 12: Buat method dispose()
+Menambahkan method dispose() di dalam class _RandomScreenState
+
+### Langkah 13: Edit method build()
+```dart
+@override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Random Number - Irfan | 2241720230'),
+      ),
+      body: Center(
+        child: StreamBuilder(
+          stream: _bloc.randomNumber,
+          initialData: 0,
+          builder: (context, snapshot) {
+            return Text(
+              'Random Number: ${snapshot.data}',
+              style: const TextStyle(fontSize: 24),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _bloc.generateRandom.add(null),
+        child: const Icon(Icons.refresh),
+      ),
+    );
+  }
+```
+
+### `Soal 13`
+Jelaskan maksud praktikum ini ! Dimanakah letak konsep pola BLoC-nya ?
+Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+> Maksud dari praktikum ini adalah untuk membuat aplikasi yang menggunakan pola BLoC. Pola BLoC adalah pola yang digunakan untuk memisahkan antara logika bisnis dan tampilan. Konsep pola BLoC terletak pada class RandomNumberBloc() yang digunakan untuk mengatur stream yang dihasilkan. setiap perubahan pada stream akan diatur oleh class RandomNumberBloc() dan akan ditampilkan ke dalam aplikasi menggunakan StreamBuilder.
+
+
+> ![output](./assets/17.gif)
